@@ -20,7 +20,7 @@ class Calculator extends React.Component {
 	{ 
 	return ( 
 	<div className="frame"> 
-	<div class="mainCalc"> 
+	<div className="mainCalc"> 
     <OutputScreen answer = {this.state.answer} question = {this.state.question}/>
 	<div className="button-row"> 
 	<Button label={'Clear'} style={{ width: '80px' }} handleClick = {this.handleClick}/> 
@@ -85,22 +85,37 @@ class Calculator extends React.Component {
       }
 
 	  case 'Delete': {
-	    var str = this.state.question;
+		let str;
+		if(this.state.question==""){
+			str=this.state.answer.toString();
+			this.setState({question:str,answer:""});
+		}
+		else
+	    	str = this.state.question;
   		str = str.substr(0,str.length-1);
   		this.setState({question: str});
   		break;
 	  }
 	  case '×':{
-		this.setState({ question: this.state.question += '*'})
+		if(this.state.question=="")
+			this.setState({question: this.state.answer += "*",answer: ""});
+		else
+			this.setState({ question: this.state.question += '*'});
         break;
 	  }
 	  case '÷':{
-		this.setState({ question: this.state.question += '/'})
+		if(this.state.question=="")
+			this.setState({question: this.state.answer += "/",answer: ""});
+		else
+			this.setState({ question: this.state.question += '/'});
         break;
 	  }
 
     default: {
-        this.setState({ question: this.state.question += value})
+		if(this.state.question=="")
+			this.setState({question: this.state.answer += value,answer: ""});
+		else
+        	this.setState({ question: this.state.question += value})
         break;
       }
     }
